@@ -1,0 +1,50 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+
+namespace GererEmployes.Models.Repositories
+{
+    public class EmployeRepository:IEmployestoreRepository<Employe>
+    {
+        IList<Employe> employes;
+
+        public void Add(Employe entity)
+        {
+            entity.Id = employes.Max(b => b.Id) + 1;
+            employes.Add(entity);
+        }
+
+        public void Delete(int id)
+        {
+            var empl = Find(id);
+            employes.Remove(empl);
+        }
+
+        public Employe Find(int id)
+        {
+            return employes.SingleOrDefault(a => a.Id == id);
+        }
+
+        public IList<Employe> list()
+        {
+            return employes;
+        }
+
+        /*public void Update(int id, Employe entity)
+        {
+            var employe = Find(id);
+            employe.Nom = entity.Nom;
+
+        }*/
+
+        public void Update( Employe entity)
+        {
+            var employe = Find(entity.Id);
+            employe.Nom = entity.Nom;
+
+        }
+    }
+}
